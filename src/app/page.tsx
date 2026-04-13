@@ -9,7 +9,7 @@ export default function HomePage() {
         {/* Wordmark */}
         <div className="mb-8">
           <span className="inline-block text-xs font-semibold tracking-[0.25em] uppercase text-white/40 mb-4">
-            After-Work League
+            Oyeka Labs
           </span>
           <h1 className="text-6xl sm:text-7xl font-black tracking-tight text-white leading-none">
             Play
