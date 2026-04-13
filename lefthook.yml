@@ -1,0 +1,16 @@
+# Pre-commit hooks for the Oyeka Labs Playbook
+#
+# Setup:
+#   brew install lefthook
+#   lefthook install
+pre-commit:
+  commands:
+    lint:
+      glob: "*.{js,ts,jsx,tsx}"
+      run: pnpm lint
+    tsc:
+      glob: "*.{ts,tsx}"
+      run: pnpm typecheck
+    style-checks:
+      glob: "*.{ts,tsx}"
+      run: /bin/bash .github/scripts/checks/run_checks.sh
