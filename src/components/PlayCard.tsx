@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Pause, Play as PlayIcon, ChevronLeft, ChevronRight } from 'lucide-react';
 import CourtDiagram from './CourtDiagram';
 import type { Play, PlayerId } from '@/types/play';
 import { cn } from '@/lib/utils';
@@ -26,15 +27,24 @@ interface PlayCardProps {
 
 export default function PlayCard({ play }: PlayCardProps) {
   const [currentStep, setCurrentStep] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
-  // Auto-advance through steps
+  // Auto-advance — only when not paused
   useEffect(() => {
+    if (isPaused) return;
     const step = play.steps[currentStep];
     const timer = setTimeout(() => {
       setCurrentStep((prev) => (prev + 1) % play.steps.length);
     }, step.duration + step.holdDuration);
     return () => clearTimeout(timer);
-  }, [currentStep, play.steps]);
+  }, [currentStep, isPaused, play.steps]);
+
+  function prev() {
+    setCurrentStep((s) => (s - 1 + play.steps.length) % play.steps.length);
+  }
+  function next() {
+    setCurrentStep((s) => (s + 1) % play.steps.length);
+  }
 
   const step = play.steps[currentStep];
 
@@ -63,16 +73,61 @@ export default function PlayCard({ play }: PlayCardProps) {
 
       {/* Main layout: diagram left (desktop) or top (mobile) */}
       <div className="flex flex-col lg:flex-row">
-        {/* ── Diagram ── */}
-        <div className="lg:w-[58%] p-4 flex items-center justify-center bg-black/20">
-          <div className="w-full max-w-lg aspect-[500/470]">
-            <CourtDiagram play={play} currentStep={currentStep} />
+        {/* ── Diagram + controls ── */}
+        <div className="lg:w-[58%] flex flex-col bg-black/20">
+          {/* Playback controls bar */}
+          <div className="flex items-center justify-between px-4 pt-3 pb-2">
+            {/* Prev / Play-Pause / Next */}
+            <div className="flex items-center gap-1.5">
+              <button
+                onClick={prev}
+                aria-label="Previous step"
+                className="flex items-center justify-center w-7 h-7 rounded-full
+                           text-white/50 hover:text-white hover:bg-white/10 transition-colors"
+              >
+                <ChevronLeft size={15} />
+              </button>
+
+              <button
+                onClick={() => setIsPaused((p) => !p)}
+                aria-label={isPaused ? 'Resume animation' : 'Pause animation'}
+                className={cn(
+                  'flex items-center justify-center w-8 h-8 rounded-full transition-colors',
+                  isPaused
+                    ? 'bg-orange-500 text-white hover:bg-orange-400'
+                    : 'bg-white/10 text-white/70 hover:bg-white/18 hover:text-white',
+                )}
+              >
+                {isPaused ? <PlayIcon size={14} className="translate-x-px" /> : <Pause size={14} />}
+              </button>
+
+              <button
+                onClick={next}
+                aria-label="Next step"
+                className="flex items-center justify-center w-7 h-7 rounded-full
+                           text-white/50 hover:text-white hover:bg-white/10 transition-colors"
+              >
+                <ChevronRight size={15} />
+              </button>
+            </div>
+
+            {/* Status label */}
+            <span className="text-[11px] text-white/30">
+              {isPaused ? 'paused' : 'playing'}
+            </span>
+          </div>
+
+          {/* Court */}
+          <div className="p-4 pt-1 flex items-center justify-center">
+            <div className="w-full max-w-lg aspect-[500/470]">
+              <CourtDiagram play={play} currentStep={currentStep} />
+            </div>
           </div>
         </div>
 
         {/* ── Instructions panel ── */}
         <div className="lg:w-[42%] flex flex-col border-t border-white/8 lg:border-t-0 lg:border-l lg:border-white/8">
-          {/* Step progress bar + label */}
+          {/* Step progress + label */}
           <div className="px-5 pt-4 pb-3 border-b border-white/8">
             {/* Step dots */}
             <div className="flex items-center gap-2 mb-3">
