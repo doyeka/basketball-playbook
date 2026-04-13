@@ -7,8 +7,11 @@ import type { Play } from '@/types/play';
  * Signal: both index fingers raised like devil horns (like Kobe's ISO signal)
  *
  * Coordinate system: x/y are 0–100 percentages of the 500×470 SVG court.
+ *   All positions use the PLAYER'S perspective (facing the basket, attacking downward).
+ *   Player's right = screen-left (low x). Player's left = screen-right (high x).
  *   Basket is at roughly (50, 91.5). Free-throw line ~(50, 59.6).
  *   Top of 3-point arc ~(50, 41). Corner-3 area ~(7, 72) and (93, 72).
+ *   Primary action drives toward lower x (player's right, screen-left).
  */
 export const horns: Play = {
   id: 'horns',
@@ -37,17 +40,17 @@ export const horns: Play = {
       ballHolder: 1,
       positions: {
         1: { x: 50, y: 35 },
-        2: { x: 14, y: 58 },
-        3: { x: 86, y: 58 },
-        4: { x: 7, y: 72 },
-        5: { x: 93, y: 72 },
+        2: { x: 86, y: 58 }, // Left Wing  — player's left = screen-right
+        3: { x: 14, y: 58 }, // Right Wing — player's right = screen-left
+        4: { x: 93, y: 72 }, // Left Corner  — player's left = screen-right
+        5: { x: 7,  y: 72 }, // Right Corner — player's right = screen-left
       },
       playerNotes: {
         1: 'Flash the horns signal. Read the right lane — is your defender up high? Attack it.',
         2: 'Space to the left wing. Feet shoulder-width apart, knees bent, ready to shoot.',
         3: 'Space to the right wing. Keep your feet ready and watch the lane open.',
         4: 'Hold the left corner. Your defender will have to decide — if they sag to help, you are wide open.',
-        5: 'Hold the right corner. If the drive goes left, you may be the skip-pass option.',
+        5: 'Hold the right corner. The drive comes to your side — your defender will likely help, leaving you open for the kick-back.',
       },
     },
 
@@ -60,18 +63,18 @@ export const horns: Play = {
       holdDuration: 1400,
       ballHolder: 1,
       positions: {
-        1: { x: 63, y: 59 },
-        2: { x: 14, y: 58 },
-        3: { x: 70, y: 27 },
-        4: { x: 7, y: 72 },
-        5: { x: 93, y: 72 },
+        1: { x: 37, y: 59 }, // PG driving right lane (screen-left = player's right)
+        2: { x: 86, y: 58 }, // Left Wing holds
+        3: { x: 30, y: 27 }, // Right Wing lifts to top (screen-left = player's right)
+        4: { x: 93, y: 72 }, // Left Corner holds
+        5: { x: 7,  y: 72 }, // Right Corner holds
       },
       playerNotes: {
         1: 'Attack the right lane with pace. Force the defense to make a choice — finish at the rim or kick out.',
         2: 'Hold your left wing spot. Stay ready — you are the primary kick-out target.',
         3: 'Lift toward the top of the key to clear the right lane. Stay alert for the skip pass.',
-        4: 'Stay in the left corner. If the right-side help rotates, cut baseline for the dump-off.',
-        5: 'Hold the right corner. Your defender may hedge toward the lane, leaving you open.',
+        4: 'Stay in the left corner. If the defense collapses on the drive, you may get a baseline dump-off.',
+        5: 'Hold the right corner. The PG may drive past your area — look for the kick-back when your defender commits to stop the drive.',
       },
     },
 
@@ -85,11 +88,11 @@ export const horns: Play = {
       ballHolder: 2,
       passes: [{ from: 1, to: 2 }],
       positions: {
-        1: { x: 63, y: 76 },
-        2: { x: 14, y: 58 },
-        3: { x: 70, y: 27 },
-        4: { x: 7, y: 72 },
-        5: { x: 93, y: 72 },
+        1: { x: 37, y: 76 }, // PG near basket
+        2: { x: 86, y: 58 }, // Left Wing — OPEN
+        3: { x: 30, y: 27 }, // Right Wing at top
+        4: { x: 93, y: 72 }, // Left Corner
+        5: { x: 7,  y: 72 }, // Right Corner
       },
       playerNotes: {
         1: 'Read the collapsing defense. Kick to the left wing for the open three, or lay it up if the lane is completely clear.',
@@ -109,11 +112,11 @@ export const horns: Play = {
       holdDuration: 1400,
       ballHolder: 2,
       positions: {
-        1: { x: 50, y: 35 },
-        2: { x: 20, y: 51 },
-        3: { x: 70, y: 27 },
-        4: { x: 7, y: 72 },
-        5: { x: 93, y: 72 },
+        1: { x: 50, y: 35 }, // PG resets to top
+        2: { x: 80, y: 51 }, // Left Wing — has ball, slight move inward
+        3: { x: 30, y: 27 }, // Right Wing at top
+        4: { x: 93, y: 72 }, // Left Corner holds
+        5: { x: 7,  y: 72 }, // Right Corner holds
       },
       playerNotes: {
         1: 'Reset to the top. Receive the swing pass and be ready to drive left this time to keep the defense honest.',

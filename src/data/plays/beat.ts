@@ -7,12 +7,16 @@ import type { Play } from '@/types/play';
  *
  * Signal: beat on your chest with a closed fist
  *
- * Positions in the triangle:
- *   Corner (#1 after cut)    — ball-side corner
- *   Trigger (#2)             — ball-side wing (has the ball first)
- *   Post (#5)                — ball-side low block
- *   Trail (#3)               — top of key (weak side)
- *   Opposite (#4)            — weak-side mid-post
+ * All positions use the PLAYER'S perspective (facing the basket, attacking downward).
+ *   Player's right = screen-left (low x). Player's left = screen-right (high x).
+ *   Primary action and ball side are on the player's RIGHT (screen-left, lower x values).
+ *
+ * Positions in the triangle (after entry):
+ *   Corner (#1 after cut)    — ball-side corner       (player's right, screen-left)
+ *   Trigger (#2)             — ball-side wing          (player's right, screen-left)
+ *   Post (#5)                — ball-side low block     (player's right, screen-left)
+ *   Trail (#3)               — top of key, weak side  (player's left,  screen-right)
+ *   Opposite (#4)            — weak-side mid-post      (player's left,  screen-right)
  */
 export const beat: Play = {
   id: 'beat',
@@ -40,18 +44,18 @@ export const beat: Play = {
       holdDuration: 1600,
       ballHolder: 1,
       positions: {
-        1: { x: 35, y: 32 },
-        2: { x: 65, y: 32 },
-        3: { x: 16, y: 58 },
-        4: { x: 84, y: 60 },
-        5: { x: 66, y: 78 },
+        1: { x: 65, y: 32 }, // PG — slightly left of center
+        2: { x: 35, y: 32 }, // Guard/Trigger — player's right (screen-left), ball side
+        3: { x: 84, y: 58 }, // Trail — player's left (screen-right), weak side
+        4: { x: 84, y: 60 }, // Opposite — will slide to weak-side mid-post on entry
+        5: { x: 34, y: 78 }, // Post — ball-side low block (player's right = screen-left)
       },
       playerNotes: {
         1: 'Flash the Beat signal. You are making the entry pass to 2 on the right wing, then cutting.',
         2: 'Set up on the right wing. Get ready to receive the entry pass — you become the trigger.',
         3: 'You are on the weak side. When 1 makes the entry pass, slide up to the top of the key (trail position).',
-        4: 'You are the opposite — weak-side mid-post. Hold your spot. You and 3 form the two-man game.',
-        5: 'Slide to the ball-side low block. Your goal: get in a direct line between 2 and the basket (line of deployment).',
+        4: 'You will set up near the weak side and slide to the opposite mid-post as 1 makes the entry pass.',
+        5: 'Slide to the ball-side low block on the right. Your goal: get in a direct line between 2 and the basket (line of deployment).',
       },
     },
 
@@ -59,23 +63,23 @@ export const beat: Play = {
       id: 'entry',
       label: 'Entry Pass + Inside Cut',
       description:
-        'PG passes to the trigger (2) on the wing, then cuts inside between 2 and 5 down to the ball-side corner.',
+        'PG passes to the trigger (2) on the right wing, then cuts inside between 2 and 5 down to the ball-side corner.',
       duration: 800,
       holdDuration: 1400,
       ballHolder: 2,
       passes: [{ from: 1, to: 2 }],
       positions: {
-        1: { x: 72, y: 80 },
-        2: { x: 72, y: 46 },
-        3: { x: 44, y: 24 },
-        4: { x: 16, y: 60 },
-        5: { x: 64, y: 74 },
+        1: { x: 28, y: 80 }, // PG cuts to ball-side corner (player's right = screen-left)
+        2: { x: 28, y: 46 }, // Trigger on right wing (player's right = screen-left)
+        3: { x: 56, y: 24 }, // Trail slides to top of key
+        4: { x: 84, y: 60 }, // Opposite — weak-side mid-post (player's left = screen-right)
+        5: { x: 36, y: 74 }, // Post on ball-side low block
       },
       playerNotes: {
         1: 'Pass to 2 and cut hard inside — go between 2 and 5 — straight to the ball-side corner. Make it sharp.',
         2: 'Catch on the wing. You are now the trigger. Read 5\'s defender before your next pass.',
         3: 'Slide to the trail position at the top of the key as 1 makes the pass.',
-        4: 'Shift to the weak-side mid-post. You and 3 form the two-man game on the weak side.',
+        4: 'Hold the weak-side mid-post. You and 3 form the two-man game on the weak side.',
         5: 'Establish position on the high side of the low block. Stay directly between 2 and the basket.',
       },
     },
@@ -89,11 +93,11 @@ export const beat: Play = {
       holdDuration: 1800,
       ballHolder: 2,
       positions: {
-        1: { x: 73, y: 81 },
-        2: { x: 72, y: 46 },
-        3: { x: 42, y: 23 },
-        4: { x: 16, y: 60 },
-        5: { x: 64, y: 74 },
+        1: { x: 27, y: 81 }, // Corner
+        2: { x: 28, y: 46 }, // Trigger on right wing
+        3: { x: 58, y: 23 }, // Trail at top
+        4: { x: 84, y: 60 }, // Opposite weak side
+        5: { x: 36, y: 74 }, // Post ball side
       },
       playerNotes: {
         1: 'You are the corner of the triangle. Stay put — 2 may hit you if the post is fronted.',
@@ -115,11 +119,11 @@ export const beat: Play = {
       passes: [{ from: 2, to: 5 }],
       screens: [{ setter: 2, cutter: 3 }],
       positions: {
-        1: { x: 47, y: 86 },
-        2: { x: 57, y: 60 },
-        3: { x: 47, y: 49 },
-        4: { x: 16, y: 60 },
-        5: { x: 64, y: 74 },
+        1: { x: 53, y: 86 }, // PG cuts baseline
+        2: { x: 43, y: 60 }, // Trigger cuts above 5, screens for trail
+        3: { x: 53, y: 49 }, // Trail cuts to high post off screen
+        4: { x: 84, y: 60 }, // Opposite holds
+        5: { x: 36, y: 74 }, // Post receives ball
       },
       playerNotes: {
         1: 'Cut hard along the baseline the instant 2 passes. Look for the quick return pass from 5 for a layup.',
@@ -139,11 +143,11 @@ export const beat: Play = {
       holdDuration: 1500,
       ballHolder: 5,
       positions: {
-        1: { x: 18, y: 76 },
-        2: { x: 11, y: 63 },
-        3: { x: 47, y: 53 },
-        4: { x: 16, y: 60 },
-        5: { x: 64, y: 74 },
+        1: { x: 82, y: 76 }, // PG cleared to weak side
+        2: { x: 89, y: 63 }, // Trigger cleared to weak-side corner
+        3: { x: 53, y: 53 }, // Trail at high post / free-throw line
+        4: { x: 84, y: 60 }, // Opposite holds
+        5: { x: 36, y: 74 }, // Post has ball, reads
       },
       playerNotes: {
         1: 'If you did not receive the baseline pass, clear to the weak-side wing to balance the floor.',
