@@ -35,6 +35,7 @@ export const beat: Play = {
   ],
 
   steps: [
+    // ── Step 1: Initial alignment ──────────────────────────────────────────
     {
       id: 'set',
       label: 'Set — 2-2-1',
@@ -59,6 +60,7 @@ export const beat: Play = {
       },
     },
 
+    // ── Step 2: Entry ──────────────────────────────────────────────────────
     {
       id: 'entry',
       label: 'Entry Pass + Inside Cut',
@@ -69,7 +71,7 @@ export const beat: Play = {
       ballHolder: 2,
       passes: [{ from: 1, to: 2 }],
       positions: {
-        1: { x: 28, y: 80 }, // PG cuts to ball-side corner (player's right = screen-left)
+        1: { x: 10, y: 84 }, // PG cuts to ball-side corner (player's right = screen-left)
         2: { x: 28, y: 46 }, // Trigger on right wing (player's right = screen-left)
         3: { x: 56, y: 24 }, // Trail slides to top of key
         4: { x: 84, y: 60 }, // Opposite — weak-side mid-post (player's left = screen-right)
@@ -84,6 +86,7 @@ export const beat: Play = {
       },
     },
 
+    // ── Step 3: Triangle decision moment ──────────────────────────────────
     {
       id: 'triangle-formed',
       label: 'Triangle Formed',
@@ -93,21 +96,48 @@ export const beat: Play = {
       holdDuration: 1800,
       ballHolder: 2,
       positions: {
-        1: { x: 27, y: 81 }, // Corner
+        1: { x: 10, y: 84 }, // Corner — ball-side corner
         2: { x: 28, y: 46 }, // Trigger on right wing
         3: { x: 58, y: 23 }, // Trail at top
         4: { x: 84, y: 60 }, // Opposite weak side
         5: { x: 36, y: 74 }, // Post ball side
       },
       playerNotes: {
-        1: 'You are the corner of the triangle. Stay put — 2 may hit you if the post is fronted.',
-        2: 'Read in order: (1) pass directly to 5 if their defender is behind them, (2) corner pass to 1, (3) reverse to 3 at the top.',
-        3: 'Hold the trail. You are the reverse option if 2 swings the ball back.',
+        1: 'You are the corner of the triangle. Stay in the corner — 2 may hit you if the post is fronted.',
+        2: 'Read in order: (1) pass directly to 5 if their defender is behind them, (2) corner pass to 1, (3) reverse to 3 at the top if nothing is there.',
+        3: 'Hold the trail. You are the reverse option if 2 cannot enter to 5 or hit the corner.',
         4: 'Hold the weak-side mid-post. Flash toward the ball only if 5\'s defender fully fronts them.',
         5: 'Feel your defender. If they are behind you on the line of deployment, flash to the ball and call for the pass.',
       },
     },
 
+    // ── Step 4: Reset Option A — no entry to 5 ────────────────────────────
+    {
+      id: 'reset-no-entry',
+      label: 'Option A: No Entry — Rotate to Other Side',
+      description:
+        'Trigger (2) could not safely enter to 5. Reverse to Trail (3) at the top. Everyone pivots to set up the triangle on the player\'s left side.',
+      duration: 700,
+      holdDuration: 1600,
+      ballHolder: 3,
+      passes: [{ from: 2, to: 3 }],
+      positions: {
+        1: { x: 60, y: 27 }, // Rotates up to new trail/top
+        2: { x: 14, y: 56 }, // Clears to player's-right weak side
+        3: { x: 72, y: 40 }, // Catches, becomes new trigger on player's-left wing
+        4: { x: 15, y: 65 }, // Slides to new opposite (weak-side, player's right)
+        5: { x: 75, y: 70 }, // Slides to new ball-side low block (player's left)
+      },
+      playerNotes: {
+        1: 'Rotate up to the top of the key. You become the new trail as the triangle forms on the other side.',
+        2: 'After the reverse pass, clear to the player\'s-right weak side. The ball side has shifted.',
+        3: 'Catch the reverse pass and move to the player\'s-left wing. You are now the trigger — read 5\'s new position and run the triangle from this side.',
+        4: 'Slide to the weak-side mid-post on the player\'s right. You and 1 form the two-man game.',
+        5: 'Slide to the ball-side low block on the player\'s left. Get in the line of deployment between 3 and the basket.',
+      },
+    },
+
+    // ── Step 5: Primary action — post entry ───────────────────────────────
     {
       id: 'post-pass',
       label: 'Post Pass + Cuts',
@@ -119,42 +149,70 @@ export const beat: Play = {
       passes: [{ from: 2, to: 5 }],
       screens: [{ setter: 2, cutter: 3 }],
       positions: {
-        1: { x: 53, y: 86 }, // PG cuts baseline
-        2: { x: 43, y: 60 }, // Trigger cuts above 5, screens for trail
+        1: { x: 53, y: 86 }, // PG cuts baseline from corner
+        2: { x: 43, y: 60 }, // Trigger cuts above 5, sets screen for trail
         3: { x: 53, y: 49 }, // Trail cuts to high post off screen
         4: { x: 84, y: 60 }, // Opposite holds
         5: { x: 36, y: 74 }, // Post receives ball
       },
       playerNotes: {
-        1: 'Cut hard along the baseline the instant 2 passes. Look for the quick return pass from 5 for a layup.',
+        1: 'Cut hard along the baseline the instant 2 passes. You are coming from the corner — look for the quick return pass from 5 for a layup.',
         2: 'After the pass to 5, cut above the post and set a screen on 3\'s defender. Then clear to the weak-side corner.',
         3: 'Use 2\'s screen to cut toward the high post (free-throw line area). You may be open for the jumper.',
         4: 'Stay at the weak-side mid-post. You are the safety valve if nothing else is there.',
-        5: 'Read your options in order: 1 cutting baseline, 3 at the high post, skip to 4, or kick back to 3 at the top.',
+        5: 'Read your options in order: 1 cutting baseline from the corner, 3 at the high post, skip to 4, or reset.',
       },
     },
 
+    // ── Step 6: Reset Option B — 5 passes to 3 at high post ──────────────
     {
-      id: 'finish',
-      label: 'Finish or Continue',
+      id: 'reset-3',
+      label: 'Option B: 5 Hits Trail — 3 Attacks',
       description:
-        '5 attacks the post, hits the cutting 1, or passes to 3 at the high post. If nothing is there, swing to 3 at the top and reset the offense.',
+        '5 did not hit 1 on the baseline cut and chose not to attack. Pass to 3 at the high post. 3 can shoot, attack, or dribble to restart the triangle from the top.',
       duration: 700,
-      holdDuration: 1500,
-      ballHolder: 5,
+      holdDuration: 1600,
+      ballHolder: 3,
+      passes: [{ from: 5, to: 3 }],
       positions: {
-        1: { x: 82, y: 76 }, // PG cleared to weak side
-        2: { x: 89, y: 63 }, // Trigger cleared to weak-side corner
-        3: { x: 53, y: 53 }, // Trail at high post / free-throw line
-        4: { x: 84, y: 60 }, // Opposite holds
-        5: { x: 36, y: 74 }, // Post has ball, reads
+        1: { x: 82, y: 74 }, // Clears to weak-side wing
+        2: { x: 89, y: 60 }, // Clears to weak-side corner
+        3: { x: 53, y: 49 }, // Receives at high post, faces up
+        4: { x: 84, y: 60 }, // Holds weak-side mid-post
+        5: { x: 36, y: 74 }, // Holds post, makes the pass
       },
       playerNotes: {
-        1: 'If you did not receive the baseline pass, clear to the weak-side wing to balance the floor.',
-        2: 'After screening, you have cleared to the weak-side corner. Stay ready.',
-        3: 'You are open at the high post. Call for the ball. Catch-and-face, then attack or shoot.',
-        4: 'Hold your position and provide balance. If nothing develops, be ready to reset.',
-        5: 'Attack from the post if you have an advantage. Otherwise kick to 3 at the high post or swing to the top to run the offense again.',
+        1: 'Clear to the weak-side wing. You are no longer involved in this action — balance the floor.',
+        2: 'Clear to the weak-side corner after screening.',
+        3: 'Catch at the high post and face up. Read the defense: shoot if open, attack if your defender closes too hard, or dribble back to the top and restart the triangle.',
+        4: 'Hold the weak-side mid-post. You are the skip-pass safety valve if 3 draws a double.',
+        5: 'Pass to 3. Stay at the post — you are still a threat if 3 drives and kicks back inside.',
+      },
+    },
+
+    // ── Step 7: Reset Option C — 5 hits 4 cutting to basket ──────────────
+    {
+      id: 'reset-4',
+      label: 'Option C: 5 Hits Opposite — 4 Cuts',
+      description:
+        '5 did not hit 1 on the baseline cut. 4 reads the play and cuts hard from the weak-side mid-post toward the basket. 5 hits 4 with the pass.',
+      duration: 700,
+      holdDuration: 1600,
+      ballHolder: 4,
+      passes: [{ from: 5, to: 4 }],
+      positions: {
+        1: { x: 82, y: 74 }, // Clears to weak-side wing
+        2: { x: 89, y: 60 }, // Clears to weak-side corner
+        3: { x: 56, y: 26 }, // Resets to trail / top of key
+        4: { x: 56, y: 82 }, // Cuts from weak-side mid-post toward basket
+        5: { x: 36, y: 74 }, // Holds post, passes to cutting 4
+      },
+      playerNotes: {
+        1: 'Clear to the weak-side wing.',
+        2: 'Clear to the weak-side corner.',
+        3: 'Reset to the top of the key. If 4\'s cut does not lead to a score, you are the outlet to restart the triangle.',
+        4: 'Read 5\'s post situation. If the baseline is open, cut hard from the weak-side mid-post toward the basket — 5 will hit you. If the cut is not there, rotate back up to the trail to restart.',
+        5: 'Hit 4 on the cut if the baseline is open. If not, kick out to 3 at the top and reset the triangle.',
       },
     },
   ],

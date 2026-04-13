@@ -170,6 +170,51 @@ function PassLines({ play, stepIndex }: PassLinesProps) {
   );
 }
 
+interface ScreenLinesProps {
+  play: Play;
+  stepIndex: number;
+}
+
+function ScreenLines({ play, stepIndex }: ScreenLinesProps) {
+  const step = play.steps[stepIndex];
+  if (!step.screens?.length) return null;
+
+  return (
+    <AnimatePresence>
+      {step.screens.map((screen) => {
+        const setter = step.positions[screen.setter];
+        const cutter = step.positions[screen.cutter];
+        const sx = toSvgX(setter.x);
+        const sy = toSvgY(setter.y);
+        const cx = toSvgX(cutter.x);
+        const cy = toSvgY(cutter.y);
+        // Perpendicular to the setter→cutter direction — the "wall" of the screen
+        const dx = cx - sx;
+        const dy = cy - sy;
+        const len = Math.sqrt(dx * dx + dy * dy);
+        if (len < 1) return null;
+        const px = (-dy / len) * 16; // half bar length = 16 SVG units
+        const py = (dx / len) * 16;
+
+        return (
+          <motion.line
+            key={`screen-${stepIndex}-${screen.setter}-${screen.cutter}`}
+            x1={sx - px} y1={sy - py}
+            x2={sx + px} y2={sy + py}
+            stroke="white"
+            strokeWidth={4.5}
+            strokeLinecap="square"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.9 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.35, delay: 0.1 }}
+          />
+        );
+      })}
+    </AnimatePresence>
+  );
+}
+
 // ─── Main Component ────────────────────────────────────────────────────────
 
 interface CourtDiagramProps {
@@ -204,6 +249,7 @@ export default function CourtDiagram({ play, currentStep }: CourtDiagramProps) {
 
       <CourtMarkings />
       <PassLines play={play} stepIndex={currentStep} />
+      <ScreenLines play={play} stepIndex={currentStep} />
 
       {/* Player tokens */}
       {play.players.map((player) => {
