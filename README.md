@@ -1,6 +1,6 @@
 # Oyeka Labs Playbook
 
-Animated basketball playbook for the Oyeka Labs after-work league — built with Next.js and deployed on Vercel.
+Animated basketball playbook from Oyeka Labs — built with Next.js and deployed on Vercel.
 
 **Live site:** https://basketball-playbook-david-oyekas-projects.vercel.app
 
