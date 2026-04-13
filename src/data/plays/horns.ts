@@ -30,6 +30,7 @@ export const horns: Play = {
   ],
 
   steps: [
+    // ── Step 1: Initial alignment ──────────────────────────────────────────
     {
       id: 'set',
       label: 'Set — Five Out',
@@ -54,6 +55,7 @@ export const horns: Play = {
       },
     },
 
+    // ── Step 2: Primary action ─────────────────────────────────────────────
     {
       id: 'drive',
       label: 'PG Attacks Right Lane',
@@ -78,52 +80,106 @@ export const horns: Play = {
       },
     },
 
+    // ── Step 3: Decision moment ────────────────────────────────────────────
     {
-      id: 'collapse',
-      label: 'Defense Collapses — Kick Out',
+      id: 'collapse-reads',
+      label: 'Defense Collapses — PG Reads',
       description:
-        'Two defenders collapse toward the basket. PG kicks to the open left wing for the uncontested three.',
+        'Two defenders collapse toward the basket. PG has the ball and reads the defense: kick to LW, swing to RW, or hit the corner.',
       duration: 500,
       holdDuration: 1800,
-      ballHolder: 2,
-      passes: [{ from: 1, to: 2 }],
+      ballHolder: 1,
       positions: {
-        1: { x: 37, y: 76 }, // PG near basket
-        2: { x: 86, y: 58 }, // Left Wing — OPEN
-        3: { x: 30, y: 27 }, // Right Wing at top
+        1: { x: 37, y: 76 }, // PG near basket — ball in hand, reading
+        2: { x: 86, y: 58 }, // Left Wing — primary kick-out target
+        3: { x: 30, y: 27 }, // Right Wing at top — safety valve
         4: { x: 93, y: 72 }, // Left Corner
         5: { x: 7,  y: 72 }, // Right Corner
       },
       playerNotes: {
-        1: 'Read the collapsing defense. Kick to the left wing for the open three, or lay it up if the lane is completely clear.',
-        2: 'Catch and shoot. Your defender rotated — step into your shot and let it fly.',
-        3: 'Stay at the top. You are the reset option if the kick-out does not happen.',
-        4: 'If the left wing drives after catching, cut hard along the baseline.',
-        5: 'Hold the right corner. Prepare for a skip pass if the left wing draws another defender.',
+        1: 'Read the collapse. Three options: kick to LW for the open three (primary), swing to RW to reset (no shot available), or hit the corner (their defender helped).',
+        2: 'Catch and shoot if the pass comes. Your defender has rotated — be ready to step into your shot immediately.',
+        3: 'Stay at the top. If the kick-out to LW is not there, you are the safety valve — PG will swing it to you.',
+        4: 'Hold the left corner. If LW drives after catching, cut hard along the baseline.',
+        5: 'Hold the right corner. If your defender helps on the drive, you could be open for the kick-back.',
       },
     },
 
+    // ── Step 4: Reset Option A ─────────────────────────────────────────────
     {
-      id: 'reset',
-      label: 'Shoot or Reset',
+      id: 'reset-rw',
+      label: 'Option A: Swing to RW — RW Takes Over',
       description:
-        'Left wing shoots or swings to PG resetting at the top. The offense immediately re-spaces to five-out to run the action again.',
-      duration: 700,
-      holdDuration: 1400,
-      ballHolder: 2,
+        'Kick-out to LW is not available. PG swings the ball to RW at the top. RW becomes the new ball handler and resets the offense.',
+      duration: 650,
+      holdDuration: 1600,
+      ballHolder: 3,
+      passes: [{ from: 1, to: 3 }],
       positions: {
-        1: { x: 50, y: 35 }, // PG resets to top
-        2: { x: 80, y: 51 }, // Left Wing — has ball, slight move inward
-        3: { x: 30, y: 27 }, // Right Wing at top
+        1: { x: 14, y: 58 }, // PG drops to right wing (fills RW's old spot)
+        2: { x: 86, y: 58 }, // Left Wing holds
+        3: { x: 30, y: 27 }, // RW receives at top — new ball handler
         4: { x: 93, y: 72 }, // Left Corner holds
         5: { x: 7,  y: 72 }, // Right Corner holds
       },
       playerNotes: {
-        1: 'Reset to the top. Receive the swing pass and be ready to drive left this time to keep the defense honest.',
-        2: 'If the shot is not there, swing to PG. Sprint back to the wing after the pass.',
-        3: 'Hold the top. Slide back to the right wing once PG has the ball.',
+        1: 'If the kick-out is not there, pull up and swing to RW at the top. Drop to the right wing — you are now the right wing on the next rep.',
+        2: 'Hold the left wing. Stay ready to be the kick-out target for the new ball handler.',
+        3: 'Catch at the top — you are now the ball handler. Read the defense, attack the right lane, and run the play again.',
         4: 'Hold the left corner.',
         5: 'Hold the right corner.',
+      },
+    },
+
+    // ── Step 5: Reset Option B ─────────────────────────────────────────────
+    {
+      id: 'reset-lw',
+      label: 'Option B: Kick-Out to LW — LW Becomes PG',
+      description:
+        'PG kicks to LW. LW catches but the shot is not there. LW dribbles up to become the new ball handler. PG rotates to LW\'s wing.',
+      duration: 700,
+      holdDuration: 1600,
+      ballHolder: 2,
+      passes: [{ from: 1, to: 2 }],
+      positions: {
+        1: { x: 86, y: 62 }, // PG rotates to LW's old left wing spot
+        2: { x: 50, y: 35 }, // LW dribbles to top — new PG
+        3: { x: 14, y: 58 }, // RW returns to right wing
+        4: { x: 93, y: 72 }, // Left Corner holds
+        5: { x: 7,  y: 72 }, // Right Corner holds
+      },
+      playerNotes: {
+        1: 'Rotate to LW\'s old left wing spot. You are now the left wing on the next rep.',
+        2: 'Catch the kick-out. If the shot is not there, dribble up to the top and become the new ball handler. Attack the right lane on the next rep.',
+        3: 'Slide back to the right wing as LW rotates to the top.',
+        4: 'Hold the left corner.',
+        5: 'Hold the right corner.',
+      },
+    },
+
+    // ── Step 6: Reset Option C ─────────────────────────────────────────────
+    {
+      id: 'reset-corner',
+      label: 'Option C: Hit the Corner — Redistribute',
+      description:
+        'PG hits RC in the right corner. Corner\'s defender helped on the drive, leaving them open. RC looks for the outlet and everyone rotates back to five-out.',
+      duration: 700,
+      holdDuration: 1600,
+      ballHolder: 5,
+      passes: [{ from: 1, to: 5 }],
+      positions: {
+        1: { x: 50, y: 35 }, // PG resets to top of key
+        2: { x: 86, y: 58 }, // Left Wing holds
+        3: { x: 14, y: 58 }, // RW returns to right wing
+        4: { x: 93, y: 72 }, // Left Corner holds
+        5: { x: 7,  y: 72 }, // Right Corner — has ball, reads outlet
+      },
+      playerNotes: {
+        1: 'After the pass, sprint back to the top of the key. Be ready to receive the outlet and attack again.',
+        2: 'Hold the left wing. You are the first outlet option for the corner.',
+        3: 'Return to the right wing.',
+        4: 'Hold the left corner.',
+        5: 'Catch the pass. Read your options: shoot if open, kick to LW on the wing, or swing to PG at the top to reset the play.',
       },
     },
   ],
